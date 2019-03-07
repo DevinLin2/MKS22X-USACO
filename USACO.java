@@ -5,7 +5,7 @@ public class USACO {
 
   public static void main(String[] args) {
     try {
-      bronze("C:\\Users\\dlin0\\MKS22X-USACO\\testCases\\makelake.1.in");
+      bronze("makelake.1.in");
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -17,12 +17,12 @@ public class USACO {
     int elevation = 0;
     int numOfInstructions = 0;
     int index = 0;
-    //int[][] lake; initiate this after finding out row and col
 
+    int addToArray = 0; // loop through a segment and add this to array
     File text = new File(filename);
     Scanner inf = new Scanner(text);
-    String line = "";
-    while (inf.hasNext()) {
+    String line = ""; // dont need this
+    while (inf.hasNext() && index < 4) {
       String segment = inf.next();
       if (index == 0) {
         row = Integer.parseInt(segment);
@@ -37,9 +37,14 @@ public class USACO {
         numOfInstructions = Integer.parseInt(segment);
       }
       index++;
-      line += segment;
+      line += segment; // dont need this
     }
-    int[][] lake = new int[row][col];
+    int[][] lake = new int[row][col];\
+    while(inf.hasNextLine() && index < row+5) {
+      String segment = inf.nextLine();
+      index++
+    }
+    System.out.println(line);
     return -1; // so it compiles
   }
 

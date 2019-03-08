@@ -5,7 +5,11 @@ public class USACO {
 
   public static void main(String[] args) {
     try {
-      System.out.println(bronze("makelake.1.in"));
+      File text = new File("makelake." + args[0] + ".out");
+      Scanner inf = new Scanner(text);
+      String ans = inf.nextLine();
+      System.out.println(ans);
+      System.out.println(bronze("makelake." + args[0] + ".in"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }

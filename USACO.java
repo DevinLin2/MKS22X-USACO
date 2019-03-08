@@ -5,7 +5,7 @@ public class USACO {
 
   public static void main(String[] args) {
     try {
-      bronze("makelake.1.in");
+      System.out.println(bronze("makelake.1.in"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -64,17 +64,18 @@ public class USACO {
       m += " ";
     }
     String[] instructions = m.split(" ");
-    return bronzeH(lake, instructions);
+    return bronzeH(lake, instructions, elevation);
   }
 
-  private static int bronzeH(int[][] lake, String[] instructions) {
+  private static int bronzeH(int[][] lake, String[] instructions, int elevation) {
     // loop through lake and find the 9 squares associated with the coords given in instructions
     // add them to an array and sort the numbers
     // take the largest of that array and subtract the dig height from instructions from it
     // then anything in the 9 squares in the range of largest to largest-height is reduced to largest-height
-    int[] depths = new int[9];
-    int index = 0;
+    int totalDepth = 0;
     for (int i = 0; i < instructions.length; i += 3) {
+      int[] depths = new int[9];
+      int index = 0;
       int row = Integer.parseInt(instructions[i]) - 1;
       int col = Integer.parseInt(instructions[i+1]) - 1;
       int height = Integer.parseInt(instructions[i+2]);
@@ -85,10 +86,24 @@ public class USACO {
         }
       }
       Arrays.sort(depths);
-      depths = new int[9];
-      index = 0;
+      int largest = depths[8];
+      int difference = largest - height;
+      for (int r = row; r < row + 3; r++) {
+        for (int c = col; c < col + 3; c++) {
+          if (lake[r][c] <= largest && lake[r][c] >= difference) {
+            lake[r][c] = difference;
+          }
+        }
+      }
     }
-    return -1; // so it compiles
+    for (int r = 0; r < lake.length; r++) {
+      for (int c = 0; c < lake[0].length; c++) {
+        if (elevation - lake[r][c] > 0) {
+          totalDepth += elevation - lake[r][c];
+        }
+      }
+    }
+    return totalDepth * 5184;
   }
 
   public static int silver(String filename) {

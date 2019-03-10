@@ -5,11 +5,12 @@ public class USACO {
 
   public static void main(String[] args) {
     try {
-      File text = new File("makelake." + args[0] + ".out");
-      Scanner inf = new Scanner(text);
-      String ans = inf.nextLine();
-      System.out.println(ans);
-      System.out.println(bronze("makelake." + args[0] + ".in"));
+      // File text = new File("makelake." + args[0] + ".out");
+      // Scanner inf = new Scanner(text);
+      // String ans = inf.nextLine();
+      // System.out.println(ans);
+      // System.out.println(bronze("makelake." + args[0] + ".in"));
+      System.out.println(silver("ctravel." + args[0] + ".in"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -110,11 +111,53 @@ public class USACO {
     return totalDepth * 5184;
   }
 
-  public static int silver(String filename) {
+  public static int silver(String filename) throws FileNotFoundException {
+    int row = 0;
+    int col = 0;
+    int seconds = 0;
+
+    int index = 0;
+    File text = new File(filename);
+    Scanner inf = new Scanner(text);
+    while (inf.hasNext() && index < 3) { // sets the row, col, and elevation
+      String segment = inf.next();
+      if (index == 0) {
+        row = Integer.parseInt(segment);
+      }
+      if (index == 1) {
+        col = Integer.parseInt(segment);
+      }
+      if (index == 2) {
+        seconds = Integer.parseInt(segment);
+      }
+      index++;
+    }
+    String[][] pasture = new String[row][col];
+    col = 0;
+    int r = 0;
+    while (inf.hasNextLine() && index < row + 4) { // makes the 2-d array of the pasture
+      String segment = inf.nextLine();
+      for (int i = 0; i < segment.length(); i++) {
+        pasture[r-1][col] = segment.charAt(i) + "";
+        col++;
+      }
+      col = 0;
+      r++;
+      index++;
+    }
+    String[] coords = inf.nextLine().split(" ");
+    int r1 = Integer.parseInt(coords[0]);
+    int r2 = Integer.parseInt(coords[1]);
+    int c1 = Integer.parseInt(coords[2]);
+    int c2 = Integer.parseInt(coords[3]);
+    System.out.println(r1);
+    System.out.println(r2);
+    System.out.println(c1);
+    System.out.println(c2);
     return -1; // so it compiles
   }
 
-  private static void debug(int[][] array) {
+  private static void debug(String[][] array) {
     String ans = "";
     for (int r = 0; r < array.length; r++) {
       for (int c = 0; c < array[0].length; c++) {

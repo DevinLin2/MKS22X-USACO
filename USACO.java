@@ -133,6 +133,7 @@ public class USACO {
       index++;
     }
     String[][] pasture = new String[row][col];
+    int[][] visited = new int[row][col];
     col = 0;
     int r = 0;
     while (inf.hasNextLine() && index < row + 4) { // makes the 2-d array of the pasture
@@ -147,17 +148,42 @@ public class USACO {
     }
     String[] coords = inf.nextLine().split(" ");
     int r1 = Integer.parseInt(coords[0]);
-    int r2 = Integer.parseInt(coords[1]);
-    int c1 = Integer.parseInt(coords[2]);
+    int c1 = Integer.parseInt(coords[1]);
+    int r2 = Integer.parseInt(coords[2]);
     int c2 = Integer.parseInt(coords[3]);
-    System.out.println(r1);
-    System.out.println(r2);
-    System.out.println(c1);
-    System.out.println(c2);
-    return -1; // so it compiles
+    return silverH(pasture, visited, r1 - 1, c1 - 1, r2 - 1, c2 - 1, seconds);
   }
 
-  private static void debug(String[][] array) {
+  private static int silverH(String[][] pasture, int[][] visited, int r1, int c1, int r2, int c2, int time) {
+    int[] moves = new int[] {1, 0, -1, 0, 0, 1, 0, -1};
+    int ans = 0;
+    if (time == 0) {
+      if (r1 == r2 && c1 == c2) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+    move(visited, r1, c1);
+    for (int i = 0; i < moves.length; i += 2) {
+      if (r1 + moves[i] >= 0 && r1 + moves[i] < pasture.length &&
+      c1 + moves[i+1] >= 0 && c1 + moves[i+1] < pasture[0].length &&
+      pasture[r1 + moves[i]][c1 + moves[i+1]].equals(".") && visited[r1 + moves[i]][c1 + moves[i+1]] == 0) {
+        ans += silverH(pasture, visited, r1 + moves[i], c1 + moves[i+1], r2, c2, time - 1);
+      }
+    }
+    undo(visited, r1, c1);
+    return ans;
+  }
+
+  private static void move(int[][] visited, int r, int c) {
+    visited[r][c] = 1;
+  }
+  private static void undo(int[][] visited, int r, int c) {
+    visited[r][c] = 0;
+  }
+
+  private static void debug(int[][] array) {
     String ans = "";
     for (int r = 0; r < array.length; r++) {
       for (int c = 0; c < array[0].length; c++) {
